@@ -11,15 +11,13 @@
    $HOST can be IP address as well. but DNS is always recommended.
 5. `echo subjectAltName = DNS:$HOST,IP:10.10.10.10,IP:127.0.0.1 >> extfile.cnf`
 6. `echo extendedKeyUsage = serverAuth >> extfile.cnf`
-7. Create Server Cert with CA `openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem \`
-   `-CAcreateserial -out server-cert.pem -extfile extfile.cnf`
+7. Create Server Cert with CA `openssl x509 -req -days 365 -sha256 -in server.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out server-cert.pem -extfile extfile.cnf`
 
 ### Create Client Certificates
 1.  Create Client private key `openssl genrsa -out key.pem 4096`
 2.  Create Client CSR `openssl req -subj '/CN=client' -new -key key.pem -out client.csr`
 3.  `echo extendedKeyUsage = clientAuth > extfile-client.cnf`
-4. Create Client Cert with CA `openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem \`
-  `-CAcreateserial -out cert.pem -extfile extfile-client.cnf`
+4. Create Client Cert with CA `openssl x509 -req -days 365 -sha256 -in client.csr -CA ca.pem -CAkey ca-key.pem -CAcreateserial -out cert.pem -extfile extfile-client.cnf`
 5. ` rm -v client.csr server.csr extfile.cnf extfile-client.cnf`
 6. Read only private keys to owner `chmod -v 0400 ca-key.pem key.pem server-key.pem`
 7. World Readable only for certs `chmod -v 0444 ca.pem server-cert.pem cert.pem`
